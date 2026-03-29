@@ -1,0 +1,29 @@
+# Compilação e Binários
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# Pastas de Build (CMake e CLion)
+build/
+cmake-build-debug/
+cmake-build-release/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDEs (JetBrains / VS Code)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos de Saída (Imagens geradas)
+*.ppm
+image1.ppm
+
+# Logs e arquivos temporários
+*.log
+.DS_Store

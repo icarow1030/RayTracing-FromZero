@@ -1,3 +1,0 @@
-C:/Users/icaro/CLionProjects/RayTracing1/build/CMakeFiles/RayTracing1.dir
-C:/Users/icaro/CLionProjects/RayTracing1/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/icaro/CLionProjects/RayTracing1/build/CMakeFiles/ZERO_CHECK.dir
