@@ -4,6 +4,8 @@
 #include "vec3.h"
 #include "ray.h"
 
+const double infinity = std::numeric_limits<double>::infinity();
+
 void solve_sphere_quadratic(const ray& r, double& a, double& h, double& c, const point3& center, double radius) {
     vec3 oc = center - r.origin();
     a = r.direction().length_squared();
