@@ -22,7 +22,7 @@ Makefile
 
 # Arquivos de Saída (Imagens geradas)
 *.ppm
-image1.ppm
+images/image1.ppm
 
 # Logs e arquivos temporários
 *.log
