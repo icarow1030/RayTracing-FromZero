@@ -29,6 +29,44 @@ The immediate next step for this project is a complete architectural refactor to
 *   Replacing recursive ray tracing with an iterative approach to preserve GPU stack memory.
 *   Implementing parallel random number generation (cuRAND).
 
+## Usage & Scene Configuration
+
+The `main.cpp` file acts as your virtual photographic studio. Inside the `main()` function, you can adjust the camera settings for performance/quality and build your own custom 3D scenes.
+
+### 1. Adjusting Render Quality
+Because this engine runs sequentially on the CPU, high-resolution renders with many samples will take time. You should adjust the camera parameters according to your current needs (quick previews vs. high-quality outputs):
+```cpp
+camera cam;
+
+cam.aspect_ratio      = 16.0 / 9.0;
+cam.image_width       = 400; // E.g., 400 for quick previews, 1920 for full HD renders
+cam.samples_per_pixel = 10;  // E.g., 10 for fast tests, 100-500+ for noise-free images
+cam.max_depth         = 10;  // E.g., 10-50 for realistic light bounces
+```
+
+*   `image_width`: The horizontal resolution of the generated image.
+*   `samples_per_pixel`: The number of random rays shot for each pixel. Higher values reduce noise (aliasing) but increase render time linearly.
+*   `max_depth`: The maximum number of times a light ray can bounce off objects before being absorbed.
+
+### 2. Building Your Own Scene
+You can populate the `world` object with spheres and different physically-based materials. The engine supports diffuse, metallic, and glass surfaces. Here is the basic syntax to create materials and add objects to the environment:
+```cpp
+hittable_list world;
+
+// 1. Create your materials
+auto mat_ground = std::make_shared<lambertian>(color(0.5, 0.5, 0.5)); // Matte/Diffuse
+auto mat_glass  = std::make_shared<dielectric>(1.5);                  // Refractive (Index of Refraction)
+auto mat_metal  = std::make_shared<metal>(color(0.7, 0.6, 0.5), 0.0); // Reflective (color, fuzziness)
+
+// 2. Add spheres to the world: std::make_shared<sphere>(center_point, radius, material)
+// Ground (a giant sphere)
+world.add(std::make_shared<sphere>(point3(0.0, -1000.0, 0.0), 1000.0, mat_ground));
+
+// Scene Objects
+world.add(std::make_shared<sphere>(point3(-1.0, 1.0, -2.0), 1.0, mat_glass));
+world.add(std::make_shared<sphere>(point3( 1.0, 1.0, -2.0), 1.0, mat_metal));
+```
+
 ## How to Build and Run
 
 This project uses **CMake** for its build system. 
