@@ -21,7 +21,6 @@ Makefile
 *.swo
 
 # Arquivos de Saída (Imagens geradas)
-*.png
 images/
 
 # Logs e arquivos temporários
