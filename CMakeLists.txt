@@ -14,4 +14,5 @@ add_executable(RayTracing1 src/main.cpp
         include/camera.h
         include/interval.h
         include/stb_image_write.h
+        include/material.h
 )
