@@ -47,7 +47,6 @@ public:
     }
 };
 
-// point3 is just an alias for vec3, but useful for geometric clarity in the code.
 using point3 = vec3;
 
 // Vector Utility Functions
@@ -107,7 +106,7 @@ inline vec3 random_vec(double min, double max) {
 inline vec3 random_in_unit_sphere() {
     while(true) {
         auto p = random_vec(-1,1);
-        if(p.length_squared() >= 1) continue; // Caso o ponto caia fora da esfera
+        if(p.length_squared() >= 1) continue;
         return p;
     }
 }

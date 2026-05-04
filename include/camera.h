@@ -15,6 +15,7 @@ public:
     double aspect_ratio = 1.0;
     int image_width = 100;
     int samples_per_pixel = 50;
+    int max_depth = 10;
     double vfov = 90.0;
     point3 lookfrom = point3(0,0,-1);
     point3 lookat = point3(0,0,0);
@@ -23,10 +24,9 @@ public:
     double defocus_angle = 0;
     double focus_dist = 10;
 
-    void render(const hittable& world) {
+    void render(const hittable& world, const std::string& output_filename = "images/output.png") {
         initialize();
 
-        // *3 -> RGB (3 canais)
         std::vector<unsigned char> image_data(image_width * image_height * 3);
         int pixel_index = 0;
 
@@ -48,10 +48,10 @@ public:
                 image_data[pixel_index++] = static_cast<unsigned char>(256 * std::clamp(pixel_color.z() * pixel_samples_scale, 0.0, 0.999));
             }
         }
-        std::clog << "\rDone rendering. Salvando imagem...\n";
+        std::clog << "\rDone rendering. Saving image...\n";
 
-        stbi_write_png("C:/Users/icaro/CLionProjects/RayTracing1/images/output.png", image_width, image_height, 3, image_data.data(), image_width * 3);
-        std::clog << "Imagem salva como output.png!\n";
+        stbi_write_png(output_filename.c_str(), image_width, image_height, 3, image_data.data(), image_width * 3);
+        std::clog << "Image saved as " << output_filename << "!\n";
     }
 
 private:
@@ -64,7 +64,6 @@ private:
     double viewport_height = 2.0;
     double pixel_samples_scale;
     vec3 u, v, w;
-    int max_depth = 50;
 
     vec3 defocus_disk_u;
     vec3 defocus_disk_v;
@@ -92,7 +91,6 @@ private:
         pixel_samples_scale = 1.0 / samples_per_pixel;
         center = lookfrom;
 
-        // Geometria da câmera escalada pelo focus_dist
         auto theta = degrees_to_radians(vfov);
         auto h = std::tan(theta/2);
         viewport_height = 2.0 * h * focus_dist;
@@ -108,7 +106,6 @@ private:
         pixel_delta_u = viewport_u / image_width;
         pixel_delta_v = viewport_v / image_height;
 
-        // O viewport agora está empurrado lá para frente, na distância do foco
         auto viewport_upper_left = center - (focus_dist * w) - viewport_u/2 - viewport_v/2;
         pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 

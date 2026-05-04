@@ -5,7 +5,6 @@
 #include "hittable.h"
 #include "color.h"
 
-// Classe base abstrata
 class material {
 public:
     virtual ~material() = default;
@@ -15,7 +14,6 @@ public:
             ) const = 0;
 };
 
-// Material Fosco / Difuso
 class lambertian : public material {
 public:
     lambertian(const color& a) : albedo(a) {}
@@ -36,7 +34,6 @@ private:
     color albedo;
 };
 
-// Material Metálico
 class metal : public material {
 public:
     metal(const color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
@@ -61,8 +58,6 @@ public:
     bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
         attenuation = color(1.0, 1.0, 1.0); // o vidro puro não absorve cor, então ele sempre vai ter 100% de albedo
 
-        // Se bateu por fora, é ar para vidro. Se bateu por dentro, é vidro para ar.
-        // respectivamente: 1.0/ir  e   ir.
         double refraction_ratio = rec.front_face ? (1.0/index_of_refraction) : index_of_refraction;
 
         vec3 unit_direction = unit_vector(r_in.direction());
@@ -70,15 +65,12 @@ public:
         double cos_theta = std::fmin(dot(-unit_direction, rec.normal), 1.0);
         double sin_theta = std::sqrt(1.0 - cos_theta*cos_theta);
 
-        // verifica se a refração é impossível (reflexão interna total)
         bool cannot_refract = refraction_ratio * sin_theta > 1.0;
         vec3 direction;
 
         if(cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double()) {
-            // a luz não consegue sair ou reflete pelo ângulo (Schlick) ->  Vira Espelho
             direction = reflect(unit_direction, rec.normal);
         } else {
-            // a luz atravessa o vidro - refração normal
             direction = refract(unit_direction, rec.normal, refraction_ratio);
         }
 
@@ -89,7 +81,6 @@ private:
     double index_of_refraction;
 
     static double reflectance(double cosine, double ref_index) {
-        // Equação de Schlick
         auto r0 = (1 - ref_index) / (1 + ref_index);
         r0 = r0*r0;
         return r0 + (1 - r0)*std::pow((1-cosine), 5);

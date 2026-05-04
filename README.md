@@ -4,7 +4,7 @@ A physically-based ray tracer built from scratch in standard C++.
 
 This project is a CPU-based rendering engine that simulates the physical behavior of light, including accurate reflections, refractions, and depth of field. It was developed without the use of external graphical APIs (like OpenGL or DirectX), relying entirely on custom vector mathematics and ray-geometry intersection algorithms.
 
-![Render Preview](https://github.com/icarow1030/RayTracing-FromZero/blob/main/images/output.png)
+![Render Preview](https://github.com/icarow1030/RayTracing-FromZero/blob/main/assets/output.png)
 *Rendered at 1080p with 100 samples per pixel and a recursion depth of 50.*
 
 ## Features

@@ -11,7 +11,6 @@ public:
     sphere(const point3& center, double radius, std::shared_ptr<material> mat) : center(center), radius(std::fmax(0, radius)), mat(mat) {}
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
-        // A matemática da quadrática volta para cá, onde ela tem acesso ao ray e vec3
         vec3 oc = center - r.origin();
         auto a = r.direction().length_squared();
         auto h = dot(r.direction(), oc);
